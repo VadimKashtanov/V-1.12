@@ -1,0 +1,83 @@
+///////// ========================== INSTS =============================== ///////////////////////
+extern uint 			INST_params  				[INSTS];	//python
+extern const char* 		INST_name 					[INSTS];	//python
+extern const char** 	INST_param_name 			[INSTS];	//python
+extern uint 			INST_capable_df  			[INSTS];	//python
+extern uint 			INST_capable_ddf  			[INSTS];	//python
+
+typedef void (*inst_check_f)(Config_t * inst);
+extern inst_check_f 			INST_CHECK  				[INSTS];	//_check
+
+typedef void (*cpu_f)(Cpu_t* cpu, uint inst, uint time);
+extern cpu_f 			INST_CPU  					[INSTS];	//_cpu
+
+typedef void (*use_f)(Use_t* use, uint inst, uint time);
+extern use_f 			INST_USE  					[INSTS];	//_use
+
+typedef void (*train_f)(Train_t* train, Config_t * inst, uint time, uint start_seed);
+typedef void (*train_dw_f)(Train_t* train, Config * inst, uint dw, uint time, uint start_seed);
+//L, dL
+extern train_f INST_FORWARD[INSTS];						//_forward
+extern train_f INST_BACKWARD[INSTS];					//_backward
+//ddL
+extern train_f INST_FORWARD2[INSTS];					//_forward2
+extern train_f INST_BACKWARD2[INSTS];					//_backward2
+extern train_dw_f INST_BACKWARD_OF_BACKWARD2[INSTS];	//_backward_of_backward2
+extern train_dw_f INST_BACKWARD_OF_FORWARD2[INSTS];		//_backward_of_forward2
+
+///////// ==================== SCORE & OPTI & GTIC =============================== ///////////////////////
+// ============== Config Score, Opti, Gtic ===========
+extern const uint 		SCORE_params[SCORES];			//python
+extern const uint 		OPTI_params[OPTIS];				//python
+extern const uint 		GTIC_params[SCORES];			//python
+
+extern const char* 		SCORE_names[SCORES];			//python
+extern const char* 		OPTI_names[OPTIS];				//python
+extern const char* 		GTIC_names[SCORES];				//python
+
+extern const uint* 		SCORE_params_defaults[SCORES];	//python
+extern const uint* 		OPTI_params_defaults[OPTIS];			//python
+extern const uint* 		GTIC_params_defaults[SCORES];			//python
+
+extern const char**		SCORE_param_name[SCORES];		//python
+extern const char**		OPTI_param_name[OPTIS];			//python
+extern const char**		GTIC_param_name[SCORES];		//python
+
+// =================== DDF ============================
+extern const uint 		SCORE_allow_ddf[SCORES];		//python
+extern const uint 		OPTI_require_ddf[OPTIS];		//python
+
+// ============ Build Config_t ============
+Config_t * score_mk_config(uint id);
+Config_t * opti_mk_config(uint id);
+Config_t * gtic_mk_config(uint id);
+
+typedef void (*dict_config_f)(Config_t * config, char * key, char * value);
+extern dict_config_f	SCORE_STR_CONFIG[SCORES];
+extern dict_config_f	OPTI_STR_CONFIG[OPTIS];
+extern dict_config_f	GTIC_STR_CONFIG[GTICS];
+
+//	============== Using Score, Opti & Gtic
+typedef void (*func_train_f)(Train_t * train);
+
+// ============ Mk Score, Opti, Gtic ============
+extern func_train_f		SCORE_MK[SCORES];
+extern func_train_f		OPTI_MK[OPTIS];
+extern func_train_f		GTIC_MK[GTICS];
+
+// ============= Score ==============
+extern func_train_f 	SCORE_SCORE[SCORES];	//compute sum(loss ...)
+extern func_train_f 	SCORE_LOSS[SCORES];
+extern func_train_f 	SCORE_DLOSS[SCORES];
+extern func_train_f 	SCORE_DDLOSS[SCORES];
+
+// ============= Opti ===========
+extern func_train_f 	OPTI_OPTI[OPTIS];	//Tester les combinaisons df/moy(ddf), df/mul(ddf[i;i]), ...
+
+// ============= Gtic ===========
+extern func_train_f 	GTIC_GTIC[GTICS];
+
+// ============== Free the structure ===========
+extern func_train_f 	SCORE_FREE[SCORES];
+extern func_train_f 	OPTI_FREE[OPTIS];
+extern func_train_f 	GTIC_FREE[GTICS];
