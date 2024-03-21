@@ -1,0 +1,25 @@
+add mulscalar _len=100
+
+add dotgaussfiltre3d Ax=1 Ay=5 Az=10 At=0 Bx=50
+
+add dot1d Ax=100 Yx=100 activ=2 drate=0
+
+add dot2d Ax=100 Ay=25 Bx=2 activ=2 drate=0
+
+add lstm2d Ax=5 Ay=7 Bx=3 drate=0
+
+add kconvl2d Ax=6 Ay=6 Kx=3 Ky=3 n0=64 n1=64 strideX=1 strideY=1 paddingX=0 paddingY=0 activ=1
+
+add pool2dmax Ax=6 Ay=6*64 Xpool=2 Ypool=2
+
+add forcemultidotgaussfiltre3d Ax=4 Ay=2 Az=2 Bx=2 Filtres=4 SimplePoints=2 SimpleFact=500
+
+add dotconvl1d Ax=5 Yx=5-4+1 K=4 activ=2
+
+add gaussfiltre2d X=10 Y=10
+
+add softmax _len=100
+
+add dot2drecurent Ax=5 Ay=3 At=1 Bx=3 activ=0 drate=0
+
+add hadamard1d _len=10
