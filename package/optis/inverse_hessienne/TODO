@@ -1,0 +1,15 @@
+//	Trainnable
+	//	dans la methode d'inversion du tableau
+	uint tous_libres;	//0 ou 1
+	uint libre_ws;		//	combien sont libres
+	uint * w_map;		//	[0, 4, 6, 12, 13, 14], tous ces poids sont libres
+	uint * w_map_d;		//  en vram pour faire l'opti
+
+	/*
+		Train par exemple 10% des weights, et donc faire un _dd_weight de taille (ws*10%) * (ws*10%)
+		Et donc on peut inverser beaucoup plus facilement.
+		Eventuellement SGD sur tous les weigths et Hessienne si les grad sont trop petits ou trop grand
+	*/
+
+
+// package/head/analyse/analyse.cuh
